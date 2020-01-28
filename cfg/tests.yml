@@ -1,0 +1,18 @@
+drivers:
+  - net.odaira.jcsb.LZ4BlockJNIDriver
+  - net.odaira.jcsb.LZ4FrameJNIDriver
+
+tests:
+  - net.odaira.jcsb.InputStreamAllocationTest
+  - net.odaira.jcsb.OutputStreamAllocationTest
+  - net.odaira.jcsb.WriteByteArrayTest
+  - net.odaira.jcsb.WriteByteTest
+  - net.odaira.jcsb.WriteByteArray512Test
+  - net.odaira.jcsb.ReadByteArray4096Test
+  - net.odaira.jcsb.ReadByteTest
+
+testdata:
+  - testdata/calgary/bib
+  - testdata/calgary/book1
+  - testdata/calgary/book2
+  - testdata/calgary/geo
