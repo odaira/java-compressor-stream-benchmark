@@ -36,5 +36,4 @@ public abstract class WriteTest extends Test {
 	    }
 	}
     }
-    
 }
