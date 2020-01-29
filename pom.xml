@@ -44,9 +44,9 @@
     <dependency>
       <groupId>org.lz4</groupId>
       <artifactId>lz4-java</artifactId>
-      <version>1.8-SNAPSHOT</version>
+      <version>1.7.1</version>
       <scope>system</scope>
-      <systemPath>${project.basedir}/lib/lz4-java-1.8-SNAPSHOT.jar</systemPath>
+      <systemPath>${project.basedir}/lib/lz4-java-1.7.1.jar</systemPath>
     </dependency>
   </dependencies>
 
