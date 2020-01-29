@@ -222,7 +222,7 @@ public class App {
     }
 
     private static void printHelp(final HelpFormatter formatter, final Options options) {
-	formatter.printHelp("java -jar java-compressor-stream-benchmark.jar [options] <config>", options);
+	formatter.printHelp("run.sh [options] <config>", options);
     }
 
     public static void main(final String[] args){
