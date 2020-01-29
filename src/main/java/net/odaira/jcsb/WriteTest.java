@@ -20,8 +20,8 @@ import java.io.ByteArrayInputStream;
 import java.io.IOException;
 
 public abstract class WriteTest extends Test {
-    private static final int chunckSize = 4096;
-    private final byte[] buffer = new byte[chunckSize];
+    private static final int chunkSize = 4096;
+    private final byte[] buffer = new byte[chunkSize];
 
     protected void check(final Driver driver, final byte[] testData, final ByteArrayOutputStream baos) throws IOException, SanityCheckException {
 	try (final InputStream is = driver.allocateInputStream(new ByteArrayInputStream(baos.toByteArray()))) {

@@ -19,14 +19,14 @@ import java.io.InputStream;
 import java.io.ByteArrayInputStream;
 
 public class ReadByteArray4096Test extends ReadTest {
-    private static final int chunckSize = 4096;
-    private final byte[] buffer = new byte[chunckSize];
+    private static final int chunkSize = 4096;
+    private final byte[] buffer = new byte[chunkSize];
 
     @Override
     public void run(final Driver driver, final byte[] testData, final Config config, final boolean check) throws IOException, SanityCheckException {
 	try (final InputStream is = driver.allocateInputStream(new ByteArrayInputStream(compressedTestData))) {
 	    int off = 0;
-	    int len = chunckSize;
+	    int len = chunkSize;
 	    int bytesRead;
 	    int cursor = 0;
 	    while ((bytesRead = is.read(buffer, off, len)) != -1) {
@@ -34,9 +34,9 @@ public class ReadByteArray4096Test extends ReadTest {
 		len -= bytesRead;
 		if (len == 0) {
 		    off = 0;
-		    len = chunckSize;
+		    len = chunkSize;
 		    if (check) {
-			for (int i = 0; i < chunckSize; i++, cursor++) {
+			for (int i = 0; i < chunkSize; i++, cursor++) {
 			    if (testData[cursor] != buffer[i]) {
 				throw new SanityCheckException();
 			    }
