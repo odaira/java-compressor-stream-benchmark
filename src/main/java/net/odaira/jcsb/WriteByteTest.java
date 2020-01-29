@@ -18,14 +18,18 @@ import java.io.IOException;
 import java.io.OutputStream;
 import java.io.ByteArrayOutputStream;
 
-public class WriteByteTest extends Test {
+public class WriteByteTest extends WriteTest {
 
     @Override
-    public void run(final Driver driver, final byte[] testData, final Config config, final boolean check) throws IOException {
-	try (final OutputStream os = driver.allocateOutputStream(new ByteArrayOutputStream(32 * 1024))) {
+    public void run(final Driver driver, final byte[] testData, final Config config, final boolean check) throws IOException, SanityCheckException {
+	final ByteArrayOutputStream baos = new ByteArrayOutputStream(32 * 1024);
+	try (final OutputStream os = driver.allocateOutputStream(baos)) {
 	    for (int i = 0; i < testData.length; i++) {
 		os.write(testData[i]);
 	    }
+	}
+	if (check) {
+	    check(driver, testData, baos);
 	}
     }
 }
