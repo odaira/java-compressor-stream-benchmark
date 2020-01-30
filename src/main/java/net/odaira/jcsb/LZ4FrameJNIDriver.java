@@ -34,7 +34,7 @@ public class LZ4FrameJNIDriver extends Driver {
 
     @Override
     public OutputStream allocateOutputStream(final OutputStream out) throws IOException {
-	return new LZ4FrameOutputStream(out, LZ4FrameOutputStream.BLOCKSIZE.SIZE_64KB, -1L, compressor, outputChecksum, LZ4FrameOutputStream.FLG.Bits.BLOCK_INDEPENDENCE);
+	return new LZ4FrameOutputStream(out, LZ4FrameOutputStream.BLOCKSIZE.SIZE_64KB, -1L, compressor, outputChecksum, LZ4FrameOutputStream.FLG.Bits.BLOCK_INDEPENDENCE, LZ4FrameOutputStream.FLG.Bits.CONTENT_CHECKSUM, LZ4FrameOutputStream.FLG.Bits.BLOCK_CHECKSUM);
     }
 
     @Override
