@@ -1,6 +1,9 @@
 drivers:
   - net.odaira.jcsb.LZ4BlockJNIDriver
   - net.odaira.jcsb.LZ4FrameJNIDriver
+  - net.odaira.jcsb.SnappyDriver
+  - net.odaira.jcsb.SnappyFramedDriver
+  - net.odaira.jcsb.ZstdDriver
 
 tests:
   - net.odaira.jcsb.InputStreamAllocationTest
