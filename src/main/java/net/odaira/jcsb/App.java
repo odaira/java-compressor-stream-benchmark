@@ -46,10 +46,34 @@ public class App {
 
     private void checkConfig(final Config config) {
 	HashSet<String> duplicateChecker = new HashSet<String>();
-	for (final String testDataName : config.getTestdata()) {
-	    if (!duplicateChecker.add(testDataName)) {
-		System.err.println(testDataName + " appears twice in the config");
+	if (config.getDrivers() == null) {
+	    System.err.println("No driver is specified in the config");
+	    System.exit(1);
+	}
+	for (final String driverName : config.getDrivers()) {
+	    if (!duplicateChecker.add(driverName)) {
+		System.err.println(driverName + " appears twice in the config");
 		System.exit(1);
+	    }
+	}
+	if (config.getTests() == null) {
+	    System.err.println("No test is specified in the config");
+	    System.exit(1);
+	}
+	duplicateChecker.clear();
+	for (final String testName : config.getTests()) {
+	    if (!duplicateChecker.add(testName)) {
+		System.err.println(testName + " appears twice in the config");
+		System.exit(1);
+	    }
+	}
+	if (config.getTestdata() != null) {
+	    duplicateChecker.clear();
+	    for (final String testDataName : config.getTestdata()) {
+		if (!duplicateChecker.add(testDataName)) {
+		    System.err.println(testDataName + " appears twice in the config");
+		    System.exit(1);
+		}
 	    }
 	}
     }
@@ -75,8 +99,10 @@ public class App {
     private HashMap<String, byte[]> readTestData(Config config) {
 	HashMap<String, byte[]> testDataBytesMap = new HashMap<String, byte[]>();
 
-	for (final String testDataName : config.getTestdata()) {
-	    testDataBytesMap.put(testDataName, readTestData(testDataName));
+	if (config.getTestdata() != null) {
+	    for (final String testDataName : config.getTestdata()) {
+		testDataBytesMap.put(testDataName, readTestData(testDataName));
+	    }
 	}
 
 	return testDataBytesMap;
@@ -201,6 +227,10 @@ public class App {
 		    testDataNames.add("InstanceAllocation");
 		} else {
 		    testDataNames = config.getTestdata();
+		    if (testDataNames == null) {
+			System.err.println("No testdata is specified in the config");
+			System.exit(1);
+		    }
 		}
 		for (final String testDataName : testDataNames) {
 		    runTestData(driverClassName, driver, testClassName, test, testDataName);
