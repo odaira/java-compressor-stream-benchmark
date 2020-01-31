@@ -124,8 +124,8 @@ public class App {
 	try {
 	    test.initializeTestData(driver, testDataBytes, config);
 	} catch (IOException ex) {
-	    System.err.println("Test initializeTestData error for " + driverClassName + "/" + testClassName + "/" + testDataName);
-	    System.err.println(ex);
+	    System.err.println("\nTest initializeTestData error for " + driverClassName + " / " + testClassName + " / " + testDataName);
+	    ex.printStackTrace();
 	    return;
 	}
 
@@ -139,11 +139,11 @@ public class App {
 		try {
 		    test.run(driver, testDataBytes, config, sanityChecker.check());
 		} catch (IOException ex) {
-		    System.err.println("Test warmup error for " + driverClassName + "/" + testClassName + "/" + testDataName);
-		    System.err.println(ex);
+		    System.err.println("\nTest warmup error for " + driverClassName + " / " + testClassName + " / " + testDataName);
+		    ex.printStackTrace();
 		    return;
 		} catch (Test.SanityCheckException ex) {
-		    System.err.println("Sanity check error for " + driverClassName + "/" + testClassName + "/" + testDataName);
+		    System.err.println("\nSanity check error for " + driverClassName + " / " + testClassName + " / " + testDataName);
 		    return;
 		}
 		currentTime = System.currentTimeMillis();
@@ -157,11 +157,11 @@ public class App {
 		try {
 		    test.run(driver, testDataBytes, config, sanityChecker.check());
 		} catch (IOException ex) {
-		    System.err.println("Test run error for " + driverClassName + "/" + testClassName + "/" + testDataName);
-		    System.err.println(ex);
+		    System.err.println("\nTest run error for " + driverClassName + " / " + testClassName + " / " + testDataName);
+		    ex.printStackTrace();
 		    return;
 		} catch (Test.SanityCheckException ex) {
-		    System.err.println("Sanity check error for " + driverClassName + "/" + testClassName + "/" + testDataName);
+		    System.err.println("\nSanity check error for " + driverClassName + " / " + testClassName + " / " + testDataName);
 		    return;
 		}
 		numOperations++;
@@ -174,8 +174,8 @@ public class App {
 	    try {
 		test.tearDownTestData(driver, testDataBytes, config);
 	    } catch (IOException ex) {
-		System.err.println("Test tearDownTestData error for " + driverClassName + "/" + testClassName + "/" + testDataName);
-		System.err.println(ex);
+		System.err.println("\nTest tearDownTestData error for " + driverClassName + " / " + testClassName + " / " + testDataName);
+		ex.printStackTrace();
 	    }
 	}
     }
@@ -190,8 +190,8 @@ public class App {
 		try {
 		    test.initialize(driver, config);
 		} catch (IOException ex) {
-		    System.err.println("Test initialization error for" + driverClassName + "/" + testClassName);
-		    System.err.println(ex);
+		    System.err.println("Test initialization error for " + driverClassName + "/" + testClassName);
+		    ex.printStackTrace();
 		    continue;
 		}
 
@@ -209,14 +209,14 @@ public class App {
 		    test.tearDown(driver, config);
 		} catch (IOException ex) {
 		    System.err.println("Test tearDown error for " + driverClassName + "/" + testClassName);
-		    System.err.println(ex);
+		    ex.printStackTrace();
 		}
 	    }
 	    try {
 		driver.tearDown(config);
 	    } catch (IOException ex) {
 		System.err.println("Driver tearDown error for " + driverClassName);
-		System.err.println(ex);
+		ex.printStackTrace();
 	    }
 	}
     }
