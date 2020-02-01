@@ -4,6 +4,7 @@ drivers:
   - net.odaira.jcsb.SnappyDriver
   - net.odaira.jcsb.SnappyFramedDriver
   - net.odaira.jcsb.ZstdDriver
+  - net.odaira.jcsb.GZIPDriver
 
 tests:
   - net.odaira.jcsb.InputStreamAllocationTest
@@ -13,6 +14,7 @@ tests:
   - net.odaira.jcsb.WriteByteArray512Test
   - net.odaira.jcsb.ReadByteArray4096Test
   - net.odaira.jcsb.ReadByteTest
+  - net.odaira.jcsb.SizeTest
 
 testdata:
   - testdata/calgary/bib
