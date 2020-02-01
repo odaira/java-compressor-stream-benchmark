@@ -28,9 +28,10 @@ import org.yaml.snakeyaml.Yaml;
 public class App {
     private Config config;
     private HashMap<String, byte[]> testDataBytesMap;
-    private SanityChecker sanityChecker;
+    private SanityCheckInvoker sanityCheckInvoker;
     private int warmupSeconds;
     private int runSeconds;
+    private boolean useChecksum;
 
     private Config loadConfig(final String configYAML) {
 	final Yaml yaml = new Yaml();
@@ -112,10 +113,15 @@ public class App {
 	config = loadConfig(configYAML);
 	checkConfig(config);
 	testDataBytesMap = readTestData(config);
-	sanityChecker = new SanityChecker(1000);
+	sanityCheckInvoker = new PeriodicSanityCheckInvoker(1000);
 
 	warmupSeconds = 10;
 	runSeconds = 30;
+	useChecksum = true;
+    }
+
+    private void skipSanityCheck() {
+	sanityCheckInvoker = new NoSanityCheckInvoker();
     }
 
     private Driver instantiateDriver(final String driverClassName) {
@@ -157,13 +163,13 @@ public class App {
 
 	try {
 	    System.gc();
-	    sanityChecker.reset();
+	    sanityCheckInvoker.reset();
 
 	    final long warmupStartTime = System.currentTimeMillis();
 	    long currentTime = warmupStartTime;
 	    do {
 		try {
-		    test.run(driver, testDataBytes, config, sanityChecker.check());
+		    test.run(driver, testDataBytes, config, sanityCheckInvoker.check());
 		} catch (IOException ex) {
 		    System.err.println("\nTest warmup error for " + driverClassName + " / " + testClassName + " / " + testDataName);
 		    ex.printStackTrace();
@@ -181,7 +187,7 @@ public class App {
 	    long numOperations = 0;
 	    do {
 		try {
-		    test.run(driver, testDataBytes, config, sanityChecker.check());
+		    test.run(driver, testDataBytes, config, sanityCheckInvoker.check());
 		} catch (IOException ex) {
 		    System.err.println("\nTest run error for " + driverClassName + " / " + testClassName + " / " + testDataName);
 		    ex.printStackTrace();
@@ -209,6 +215,7 @@ public class App {
     private void run() {
 	for (final String driverClassName : config.getDrivers()) {
 	    final Driver driver = instantiateDriver(driverClassName);
+	    driver.useChecksum(useChecksum);
 
 	    for (final String testClassName : config.getTests()) {
 		final Test test = instantiateTest(testClassName);
@@ -260,6 +267,8 @@ public class App {
 	options.addOption(new Option("h", false, "print help"));
 	options.addOption(new Option("w", true, "specify warmup time in seconds (default 10 seconds)"));
 	options.addOption(new Option("r", true, "specify run time in seconds (default 30 seconds)"));
+	options.addOption(new Option("s", false, "skip sanity check"));
+	options.addOption(new Option("d", false, "disable checksum if possible"));
 
 	final CommandLineParser parser = new DefaultParser();
 	final HelpFormatter formatter = new HelpFormatter();
@@ -305,15 +314,26 @@ public class App {
 		System.exit(1);
 	    }
 	}
+	if (cmd.hasOption("s")) {
+	    app.skipSanityCheck();
+	}
+	if (cmd.hasOption("d")) {
+	    app.useChecksum = false;
+	}
 
 	app.run();
     }
 
-    private class SanityChecker {
+    private abstract class SanityCheckInvoker {
+	abstract boolean check();
+	abstract void reset();
+    }
+
+    private class PeriodicSanityCheckInvoker extends SanityCheckInvoker {
 	private long counter =  0;
 	private final int interval;
 
-	SanityChecker(int interval) {
+	PeriodicSanityCheckInvoker(int interval) {
 	    this.interval = interval;
 	}
 
@@ -327,6 +347,15 @@ public class App {
 
 	void reset() {
 	    counter = 0;
+	}
+    }
+
+    private class NoSanityCheckInvoker extends SanityCheckInvoker {
+	boolean check() {
+	    return false;
+	}
+
+	void reset() {
 	}
     }
 }

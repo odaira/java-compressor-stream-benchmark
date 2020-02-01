@@ -26,7 +26,7 @@ public class ZstdDriver extends Driver {
     @Override
     public OutputStream allocateOutputStream(final OutputStream out) throws IOException {
 	ZstdOutputStream zos = new ZstdOutputStream(out);
-	zos.setChecksum(true);
+	zos.setChecksum(useChecksum);
 	return zos;
     }
 

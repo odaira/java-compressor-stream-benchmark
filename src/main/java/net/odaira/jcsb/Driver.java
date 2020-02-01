@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.io.ByteArrayOutputStream;
 
 public abstract class Driver {
+    protected boolean useChecksum;
 
     public abstract InputStream allocateInputStream(InputStream in) throws IOException;
 
@@ -27,12 +28,16 @@ public abstract class Driver {
 
     public final byte[] getCompressedBytes(final byte[] data) throws IOException {
 	final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-	final OutputStream os = allocateOutputStream(baos);
-	os.write(data);
-	os.close();
+	try (final OutputStream os = allocateOutputStream(baos)) {
+	    os.write(data);
+	}
 	return baos.toByteArray();
     }
 
     public void tearDown(final Config config) throws IOException {
+    }
+
+    public void useChecksum(final boolean useChecksum) {
+	this.useChecksum = useChecksum;
     }
 }
