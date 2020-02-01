@@ -11,4 +11,4 @@ for lib in lib/*.jar; do
     classpath=$classpath:$lib
 done
 
-$java_cmd -cp $classpath net.odaira.jcsb.App $*
+$java_cmd -cp $classpath $JAVA_OPTS net.odaira.jcsb.App $*
