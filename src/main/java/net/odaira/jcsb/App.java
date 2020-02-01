@@ -161,6 +161,12 @@ public class App {
 	    return;
 	}
 
+	int compressedSize = test.getCompressedSizeIfSizeTest();
+	if (compressedSize >= 0) {
+	    System.out.printf("%d\tbytes\n", compressedSize);
+	    return;
+	}
+
 	try {
 	    System.gc();
 	    sanityCheckInvoker.reset();

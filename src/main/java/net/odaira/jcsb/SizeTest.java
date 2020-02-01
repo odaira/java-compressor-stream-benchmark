@@ -15,31 +15,24 @@ package net.odaira.jcsb;
  */
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.ByteArrayInputStream;
 
-public abstract class Test {
+public class SizeTest extends Test {
+    private int compressedSize;
 
-    public void initialize(final Driver driver, final Config config) throws IOException {
-    }
-
+    @Override
     public void initializeTestData(final Driver driver, final byte[] testData, final Config config) throws IOException {
+	compressedSize = driver.getCompressedBytes(testData).length;
     }
 
-    public abstract void run(Driver driver, byte[] testData, Config config, boolean check) throws IOException, SanityCheckException;
-
-    public void tearDownTestData(final Driver driver, final byte[] testData, final Config config) throws IOException {
+    @Override
+    public void run(Driver driver, byte[] testData, Config config, boolean check) {
+	throw new IllegalStateException("run() must not be executed for SiztTest");
     }
 
-    public void tearDown(final Driver driver, final Config config) throws IOException {
-    }
-
-    public boolean isAllocationTest() {
-	return false;
-    }
-
+    @Override
     public int getCompressedSizeIfSizeTest() {
-	return -1;
-    }
-
-    public class SanityCheckException extends Exception {
+	return compressedSize;
     }
 }
