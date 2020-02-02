@@ -18,6 +18,8 @@ import java.io.IOException;
 
 public abstract class Test {
 
+    public abstract String getDescription();
+
     public void initialize(final Driver driver, final Config config) throws IOException {
     }
 

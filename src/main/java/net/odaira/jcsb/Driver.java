@@ -22,6 +22,8 @@ import java.io.ByteArrayOutputStream;
 public abstract class Driver {
     protected boolean useChecksum;
 
+    public abstract String getDescription();
+
     public abstract InputStream allocateInputStream(InputStream in) throws IOException;
 
     public abstract OutputStream allocateOutputStream(OutputStream out) throws IOException;

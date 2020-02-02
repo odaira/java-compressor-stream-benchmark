@@ -27,6 +27,11 @@ import net.jpountz.lz4.LZ4FrameOutputStream;
 import net.jpountz.lz4.LZ4FrameInputStream;
 
 public class LZ4FrameJNIDriver extends Driver {
+    @Override
+    public String getDescription() {
+	return "LZ4FrameOutputStream and LZ4FrameInputStream";
+    }
+
     private final LZ4Compressor compressor = LZ4Factory.nativeInstance().fastCompressor();
     private final XXHash32 outputChecksum = XXHashFactory.nativeInstance().hash32();
     private final LZ4SafeDecompressor decompressor = LZ4Factory.nativeInstance().safeDecompressor();

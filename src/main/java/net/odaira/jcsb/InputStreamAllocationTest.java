@@ -19,6 +19,10 @@ import java.io.IOException;
 import java.io.ByteArrayInputStream;
 
 public class InputStreamAllocationTest extends Test {
+    @Override
+    public String getDescription() {
+	return "Allocate an input stream instance";
+    }
 
     private byte[] compressedBytes;
 

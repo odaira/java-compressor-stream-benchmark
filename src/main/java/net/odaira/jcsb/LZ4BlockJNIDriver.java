@@ -26,6 +26,11 @@ import net.jpountz.lz4.LZ4BlockOutputStream;
 import net.jpountz.lz4.LZ4BlockInputStream;
 
 public class LZ4BlockJNIDriver extends Driver {
+    @Override
+    public String getDescription() {
+	return "LZ4BlockOutputStream and LZ4BlockInputStream (checksum cannot be disabled)";
+    }
+
     private static final int DEFAULT_SEED = 0x9747b28c;
     private final LZ4Compressor compressor = LZ4Factory.nativeInstance().fastCompressor();
     private final Checksum outputChecksum = XXHashFactory.nativeInstance().newStreamingHash32(DEFAULT_SEED).asChecksum();

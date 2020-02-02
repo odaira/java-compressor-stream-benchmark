@@ -19,6 +19,10 @@ import java.io.InputStream;
 import java.io.ByteArrayInputStream;
 
 public class ReadByteTest extends ReadTest {
+    @Override
+    public String getDescription() {
+	return "Read by read()";
+    }
 
     @Override
     public void run(final Driver driver, final byte[] testData, final Config config, final boolean check) throws IOException, SanityCheckException {

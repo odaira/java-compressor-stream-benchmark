@@ -19,6 +19,11 @@ import java.io.InputStream;
 import java.io.ByteArrayInputStream;
 
 public class SizeTest extends Test {
+    @Override
+    public String getDescription() {
+	return "Return the size of the compressed test data";
+    }
+
     private int compressedSize;
 
     @Override

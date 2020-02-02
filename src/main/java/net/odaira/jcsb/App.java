@@ -264,6 +264,21 @@ public class App {
 	}
     }
 
+    private void explain() {
+	System.out.println("---------------");
+	for (final String driverClassName : config.getDrivers()) {
+	    final Driver driver = instantiateDriver(driverClassName);
+	    System.out.println(driverClassName);
+	    System.out.println("  " + driver.getDescription());
+	}
+	System.out.println("---------------");
+	for (final String testClassName : config.getTests()) {
+	    final Test test = instantiateTest(testClassName);
+	    System.out.println(testClassName);
+	    System.out.println("  " + test.getDescription());
+	}
+    }
+
     private static void printHelp(final HelpFormatter formatter, final Options options) {
 	formatter.printHelp("run.sh [options] <config>", options);
     }
@@ -275,6 +290,7 @@ public class App {
 	options.addOption(new Option("r", true, "specify run time in seconds (default 30 seconds)"));
 	options.addOption(new Option("s", false, "skip sanity check"));
 	options.addOption(new Option("d", false, "disable checksum if possible"));
+	options.addOption(new Option("e", false, "explain the drivers and tests and then exit"));
 
 	final CommandLineParser parser = new DefaultParser();
 	final HelpFormatter formatter = new HelpFormatter();
@@ -327,7 +343,11 @@ public class App {
 	    app.useChecksum = false;
 	}
 
-	app.run();
+	if (cmd.hasOption("e")) {
+	    app.explain();
+	} else {
+	    app.run();
+	}
     }
 
     private abstract class SanityCheckInvoker {

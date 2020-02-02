@@ -19,6 +19,11 @@ import java.io.InputStream;
 import java.io.ByteArrayInputStream;
 
 public class ReadByteArray4096Test extends ReadTest {
+    @Override
+    public String getDescription() {
+	return "Read by read(byte[], int, int) 4096 bytes each time";
+    }
+
     private static final int chunkSize = 4096;
     private final byte[] buffer = new byte[chunkSize];
 

@@ -22,6 +22,10 @@ import org.xerial.snappy.SnappyFramedOutputStream;
 import org.xerial.snappy.SnappyFramedInputStream;
 
 public class SnappyFramedDriver extends Driver {
+    @Override
+    public String getDescription() {
+	return "SnappyFramedOutputStream and SnappyFramedInputStream";
+    }
 
     @Override
     public OutputStream allocateOutputStream(final OutputStream out) throws IOException {

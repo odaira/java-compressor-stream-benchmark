@@ -19,6 +19,10 @@ import java.io.OutputStream;
 import java.io.ByteArrayOutputStream;
 
 public class WriteByteArray512Test extends WriteTest {
+    @Override
+    public String getDescription() {
+	return "Write by write(byte[], int, int) 512 bytes each time";
+    }
 
     @Override
     public void run(final Driver driver, final byte[] testData, final Config config, final boolean check) throws IOException, SanityCheckException {

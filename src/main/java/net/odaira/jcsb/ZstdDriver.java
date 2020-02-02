@@ -22,6 +22,10 @@ import com.github.luben.zstd.ZstdOutputStream;
 import com.github.luben.zstd.ZstdInputStream;
 
 public class ZstdDriver extends Driver {
+    @Override
+    public String getDescription() {
+	return "ZstdOutputStream and ZstdInputStream";
+    }
 
     @Override
     public OutputStream allocateOutputStream(final OutputStream out) throws IOException {

@@ -19,6 +19,10 @@ import java.io.OutputStream;
 import java.io.ByteArrayOutputStream;
 
 public class WriteByteArrayTest extends WriteTest {
+    @Override
+    public String getDescription() {
+	return "Write by single write(byte[])";
+    }
 
     @Override
     public void run(final Driver driver, final byte[] testData, final Config config, final boolean check) throws IOException, SanityCheckException {

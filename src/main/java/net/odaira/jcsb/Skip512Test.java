@@ -19,6 +19,11 @@ import java.io.InputStream;
 import java.io.ByteArrayInputStream;
 
 public class Skip512Test extends ReadTest {
+    @Override
+    public String getDescription() {
+	return "Skip by skip(long) 512 bytes each time";
+    }
+
     private static final int chunkSize = 512;
 
     @Override

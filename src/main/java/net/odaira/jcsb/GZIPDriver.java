@@ -21,6 +21,10 @@ import java.util.zip.GZIPOutputStream;
 import java.util.zip.GZIPInputStream;
 
 public class GZIPDriver extends Driver {
+    @Override
+    public String getDescription() {
+	return "GZIPOutputStream and GZIPInputStream (checksum cannot be disabled)";
+    }
 
     @Override
     public OutputStream allocateOutputStream(final OutputStream out) throws IOException {

@@ -19,6 +19,10 @@ import java.io.IOException;
 import java.io.ByteArrayOutputStream;
 
 public class OutputStreamAllocationTest extends Test {
+    @Override
+    public String getDescription() {
+	return "Allocate an output stream instance";
+    }
 
     @Override
     public void initialize(final Driver driver, final Config config) {
