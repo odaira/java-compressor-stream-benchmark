@@ -67,3 +67,8 @@ LZ4BlockJNIDriver	WriteByteTest	testdata/calgary/bib	1711.6	ops
 ...
 ```
 Edit cfg/tests.yml to run only specific drivers, tests, or test data.
+
+The run.sh script recognizes the JAVA_HOME and JAVA_OPTS envorinment variables. It is recommended to specify a suffciently large size of the Java heap.
+```
+$ env JAVA_OPTS="-Xms300m -Xmx300m" ./run.sh cfg/tests.yml
+```
