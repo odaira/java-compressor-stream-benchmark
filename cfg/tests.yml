@@ -5,6 +5,7 @@ drivers:
   - net.odaira.jcsb.SnappyFramedDriver
   - net.odaira.jcsb.ZstdDriver
   - net.odaira.jcsb.GZIPDriver
+#  - net.odaira.jcsb.BufferedPassThroughDriver
 
 tests:
   - net.odaira.jcsb.InputStreamAllocationTest
