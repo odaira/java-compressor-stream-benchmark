@@ -1,0 +1,23 @@
+name: Java CI
+
+on: [push]
+
+jobs:
+  build:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+    - name: Set up JDK 1.8
+      uses: actions/setup-java@v1
+      with:
+        java-version: 1.8
+    - name: Build with Maven
+      run: mvn -B package --file pom.xml
+    - name: Print help
+      run: ./run.sh -h
+    - name: Print explanation
+      run: ./run.sh -e cfg/tests.yml
+    - name: Run tests
+      run: ./run.sh -w 1 -r 3 cfg/tests.yml
