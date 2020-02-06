@@ -23,3 +23,17 @@ testdata:
   - testdata/calgary/book1
   - testdata/calgary/book2
   - testdata/calgary/geo
+  - testdata/calgary/news
+  - testdata/calgary/obj1
+  - testdata/calgary/obj2
+  - testdata/calgary/paper1
+  - testdata/calgary/paper2
+  - testdata/calgary/paper3
+  - testdata/calgary/paper4
+  - testdata/calgary/paper5
+  - testdata/calgary/paper6
+  - testdata/calgary/pic
+  - testdata/calgary/progc
+  - testdata/calgary/progl
+  - testdata/calgary/progp
+  - testdata/calgary/trans
