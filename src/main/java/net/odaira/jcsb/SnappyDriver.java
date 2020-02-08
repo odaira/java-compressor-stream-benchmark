@@ -24,7 +24,7 @@ import org.xerial.snappy.SnappyInputStream;
 public class SnappyDriver extends Driver {
     @Override
     public String getDescription() {
-	return "SnappyOutputStream and SnappyInputStream";
+	return "SnappyOutputStream and SnappyInputStream (checksum is not supported)";
     }
 
     @Override
