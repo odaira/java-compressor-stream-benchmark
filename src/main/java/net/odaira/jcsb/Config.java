@@ -32,6 +32,6 @@ public class Config {
 
     @Override
     public String toString() {
-	return "Config { drivers=" + drivers + ", testdata=" + testdata + " }";
+	return "Config { drivers=" + drivers + ", tests=" + tests + ", testdata=" + testdata + " }";
     }
 }
