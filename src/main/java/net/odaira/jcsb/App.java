@@ -146,9 +146,13 @@ public class App {
 	}
     }
 
-    private void runTestData(final String driverClassName, final Driver driver, final String testClassName, final Test test, final String testDataName) {
-	System.out.print(driverClassName.substring(driverClassName.lastIndexOf('.') + 1) + '\t');
-	System.out.print(testClassName.substring(testClassName.lastIndexOf('.') + 1) + '\t');
+    private String getNameForPrint(final String className) {
+	return className.substring(className.lastIndexOf('.') + 1);
+    }
+
+    private double runTestData(final String driverClassName, final Driver driver, final String testClassName, final Test test, final String testDataName) {
+	System.out.print(getNameForPrint(driverClassName) + '\t');
+	System.out.print(getNameForPrint(testClassName) + '\t');
 	System.out.print(testDataName + '\t');
 
 	byte[] testDataBytes = testDataBytesMap.get(testDataName);
@@ -158,15 +162,16 @@ public class App {
 	} catch (IOException ex) {
 	    System.err.println("\nTest initializeTestData error for " + driverClassName + " / " + testClassName + " / " + testDataName);
 	    ex.printStackTrace();
-	    return;
+	    return 0.0;
 	}
 
-	int compressedSize = test.getCompressedSizeIfSizeTest();
-	if (compressedSize >= 0) {
+	if (test.isSizeTest()) {
+	    int compressedSize = test.getCompressedSize();
 	    System.out.printf("%d\tbytes\n", compressedSize);
-	    return;
+	    return compressedSize;
 	}
 
+	double ops = 0.0;
 	try {
 	    System.gc();
 	    sanityCheckInvoker.reset();
@@ -179,10 +184,10 @@ public class App {
 		} catch (IOException ex) {
 		    System.err.println("\nTest warmup error for " + driverClassName + " / " + testClassName + " / " + testDataName);
 		    ex.printStackTrace();
-		    return;
+		    return 0.0;
 		} catch (Test.SanityCheckException ex) {
 		    System.err.println("\nSanity check error for " + driverClassName + " / " + testClassName + " / " + testDataName);
-		    return;
+		    return 0.0;
 		}
 		currentTime = System.currentTimeMillis();
 	    } while ((currentTime - warmupStartTime) < warmupSeconds * 1000);
@@ -197,16 +202,16 @@ public class App {
 		} catch (IOException ex) {
 		    System.err.println("\nTest run error for " + driverClassName + " / " + testClassName + " / " + testDataName);
 		    ex.printStackTrace();
-		    return;
+		    return 0.0;
 		} catch (Test.SanityCheckException ex) {
 		    System.err.println("\nSanity check error for " + driverClassName + " / " + testClassName + " / " + testDataName);
-		    return;
+		    return 0.0;
 		}
 		numOperations++;
 		currentTime = System.currentTimeMillis();
 	    } while ((currentTime - runStartTime) < runSeconds * 1000);
 
-	    final double ops = 1000.0 * numOperations / (currentTime - runStartTime);
+	    ops = 1000.0 * numOperations / (currentTime - runStartTime);
 	    System.out.printf("%.1f\tops\n", ops);
 	} finally {
 	    try {
@@ -216,6 +221,7 @@ public class App {
 		ex.printStackTrace();
 	    }
 	}
+	return ops;
     }
 
     private void run() {
@@ -245,9 +251,19 @@ public class App {
 			System.exit(1);
 		    }
 		}
+		int numTestData = testDataNames.size();
+		double product = 1.0;
 		for (final String testDataName : testDataNames) {
-		    runTestData(driverClassName, driver, testClassName, test, testDataName);
+		    product *= runTestData(driverClassName, driver, testClassName, test, testDataName);
 		}
+		if (!test.isAllocationTest()) {
+		    System.out.print(getNameForPrint(driverClassName) + '\t');
+		    System.out.print(getNameForPrint(testClassName) + '\t');
+		    System.out.print("GeometricMean\t");
+		    double geoMean = Math.pow(product, 1.0 / numTestData);
+		    System.out.printf("%.1f\t%s\n", geoMean, test.isSizeTest() ? "bytes" : "ops");
+		}
+
 		try {
 		    test.tearDown(driver, config);
 		} catch (IOException ex) {

@@ -37,7 +37,12 @@ public class SizeTest extends Test {
     }
 
     @Override
-    public int getCompressedSizeIfSizeTest() {
+    public boolean isSizeTest() {
+	return true;
+    }
+
+    @Override
+    public int getCompressedSize() {
 	return compressedSize;
     }
 }

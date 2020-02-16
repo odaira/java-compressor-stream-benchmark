@@ -38,7 +38,11 @@ public abstract class Test {
 	return false;
     }
 
-    public int getCompressedSizeIfSizeTest() {
+    public boolean isSizeTest() {
+	return false;
+    }
+
+    public int getCompressedSize() {
 	return -1;
     }
 
