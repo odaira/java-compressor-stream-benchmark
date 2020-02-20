@@ -1,3 +1,5 @@
+title: test-all
+
 drivers:
   - net.odaira.jcsb.LZ4BlockJNIDriver
   - net.odaira.jcsb.LZ4FrameJNIDriver

@@ -46,6 +46,10 @@ public class App {
     }
 
     private void checkConfig(final Config config) {
+	if (config.getTitle() == null) {
+	    System.err.println("No title is specified in the config");
+	    System.exit(1);
+	}
 	HashSet<String> duplicateChecker = new HashSet<String>();
 	if (config.getDrivers() == null) {
 	    System.err.println("No driver is specified in the config");

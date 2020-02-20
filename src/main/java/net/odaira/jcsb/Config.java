@@ -17,9 +17,13 @@ package net.odaira.jcsb;
 import java.util.List;
 
 public class Config {
+    private String title;
     private List<String> drivers;
     private List<String> tests;
     private List<String> testdata;
+
+    public String getTitle() { return title; }
+    public void setTitle(String title) { this.title = title; }
 
     public List<String> getDrivers() { return drivers; }
     public void setDrivers(List<String> drivers) { this.drivers = drivers; }
