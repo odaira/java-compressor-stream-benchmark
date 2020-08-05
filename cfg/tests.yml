@@ -1,12 +1,17 @@
 title: test-all
 
 drivers:
-  - net.odaira.jcsb.LZ4BlockJNIDriver
+  - net.odaira.jcsb.LZ4BlockChecksumJNIDriver
   - net.odaira.jcsb.LZ4FrameJNIDriver
+  - net.odaira.jcsb.LZ4FrameBlockChecksumJNIDriver
+  - net.odaira.jcsb.LZ4FrameContentChecksumJNIDriver
+  - net.odaira.jcsb.LZ4FrameBlockContentChecksumJNIDriver
   - net.odaira.jcsb.SnappyDriver
   - net.odaira.jcsb.SnappyFramedDriver
+  - net.odaira.jcsb.SnappyFramedChecksumDriver
   - net.odaira.jcsb.ZstdDriver
-  - net.odaira.jcsb.GZIPDriver
+  - net.odaira.jcsb.ZstdChecksumDriver
+  - net.odaira.jcsb.GZIPChecksumDriver
 #  - net.odaira.jcsb.BufferedPassThroughDriver
 
 tests:

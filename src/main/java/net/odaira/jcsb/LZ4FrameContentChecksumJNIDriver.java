@@ -16,25 +16,15 @@ package net.odaira.jcsb;
  * limitations under the License.
  */
 
-import java.io.OutputStream;
-import java.io.InputStream;
-import java.io.IOException;
-import java.util.zip.GZIPOutputStream;
-import java.util.zip.GZIPInputStream;
+import net.jpountz.lz4.LZ4FrameOutputStream;
 
-public class GZIPDriver extends Driver {
+public class LZ4FrameContentChecksumJNIDriver extends LZ4FrameJNIDriver {
     @Override
     public String getDescription() {
-	return "GZIPOutputStream and GZIPInputStream (checksum cannot be disabled)";
+	return "LZ4FrameOutputStream and LZ4FrameInputStream with content checksum";
     }
 
-    @Override
-    public OutputStream allocateOutputStream(final OutputStream out) throws IOException {
-	return new GZIPOutputStream(out, 64 * 1024);
-    }
-
-    @Override
-    public InputStream allocateInputStream(final InputStream in) throws IOException {
-	return new GZIPInputStream(in);
+    protected LZ4FrameOutputStream.FLG.Bits[] getChecksumFlags() {
+        return new LZ4FrameOutputStream.FLG.Bits[] { LZ4FrameOutputStream.FLG.Bits.CONTENT_CHECKSUM };
     }
 }

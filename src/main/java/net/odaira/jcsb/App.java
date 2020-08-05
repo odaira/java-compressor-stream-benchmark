@@ -33,7 +33,6 @@ public class App {
     private SanityCheckInvoker sanityCheckInvoker;
     private int warmupSeconds;
     private int runSeconds;
-    private boolean useChecksum;
 
     private Config loadConfig(final String configYAML) {
 	final Yaml yaml = new Yaml();
@@ -123,7 +122,6 @@ public class App {
 
 	warmupSeconds = 10;
 	runSeconds = 30;
-	useChecksum = true;
     }
 
     private void skipSanityCheck() {
@@ -233,7 +231,6 @@ public class App {
     private void run() {
 	for (final String driverClassName : config.getDrivers()) {
 	    final Driver driver = instantiateDriver(driverClassName);
-	    driver.useChecksum(useChecksum);
 
 	    for (final String testClassName : config.getTests()) {
 		final Test test = instantiateTest(testClassName);
@@ -311,7 +308,6 @@ public class App {
 	options.addOption(new Option("w", true, "specify warmup time in seconds (default 10 seconds)"));
 	options.addOption(new Option("r", true, "specify run time in seconds (default 30 seconds)"));
 	options.addOption(new Option("s", false, "skip sanity check"));
-	options.addOption(new Option("d", false, "disable checksum if possible"));
 	options.addOption(new Option("e", false, "explain the drivers and tests and then exit"));
 
 	final CommandLineParser parser = new DefaultParser();
@@ -360,9 +356,6 @@ public class App {
 	}
 	if (cmd.hasOption("s")) {
 	    app.skipSanityCheck();
-	}
-	if (cmd.hasOption("d")) {
-	    app.useChecksum = false;
 	}
 
 	if (cmd.hasOption("e")) {

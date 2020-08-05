@@ -27,10 +27,10 @@ import net.jpountz.xxhash.XXHashFactory;
 import net.jpountz.lz4.LZ4BlockOutputStream;
 import net.jpountz.lz4.LZ4BlockInputStream;
 
-public class LZ4BlockJNIDriver extends Driver {
+public class LZ4BlockChecksumJNIDriver extends Driver {
     @Override
     public String getDescription() {
-	return "LZ4BlockOutputStream and LZ4BlockInputStream (checksum cannot be disabled)";
+	return "LZ4BlockOutputStream and LZ4BlockInputStream with checksum (checksum cannot be disabled)";
     }
 
     private static final int DEFAULT_SEED = 0x9747b28c;

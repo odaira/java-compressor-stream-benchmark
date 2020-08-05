@@ -16,32 +16,15 @@ package net.odaira.jcsb;
  * limitations under the License.
  */
 
-import java.io.OutputStream;
-import java.io.InputStream;
-import java.io.IOException;
+import net.jpountz.lz4.LZ4FrameOutputStream;
 
-import com.github.luben.zstd.ZstdOutputStream;
-import com.github.luben.zstd.ZstdInputStream;
-
-public class ZstdDriver extends Driver {
+public class LZ4FrameBlockChecksumJNIDriver extends LZ4FrameJNIDriver {
     @Override
     public String getDescription() {
-	return "ZstdOutputStream and ZstdInputStream";
+	return "LZ4FrameOutputStream and LZ4FrameInputStream with block checksum";
     }
 
-    @Override
-    public OutputStream allocateOutputStream(final OutputStream out) throws IOException {
-	ZstdOutputStream zos = new ZstdOutputStream(out);
-	zos.setChecksum(useChecksum());
-	return zos;
-    }
-
-    protected boolean useChecksum() {
-        return false;
-    }
-
-    @Override
-    public InputStream allocateInputStream(final InputStream in) throws IOException {
-	return new ZstdInputStream(in);
+    protected LZ4FrameOutputStream.FLG.Bits[] getChecksumFlags() {
+        return new LZ4FrameOutputStream.FLG.Bits[] { LZ4FrameOutputStream.FLG.Bits.BLOCK_CHECKSUM };
     }
 }

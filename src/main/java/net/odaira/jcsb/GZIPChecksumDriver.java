@@ -16,26 +16,25 @@ package net.odaira.jcsb;
  * limitations under the License.
  */
 
-import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.InputStream;
 import java.io.IOException;
-import java.io.ByteArrayOutputStream;
+import java.util.zip.GZIPOutputStream;
+import java.util.zip.GZIPInputStream;
 
-public abstract class Driver {
-    public abstract String getDescription();
-
-    public abstract InputStream allocateInputStream(InputStream in) throws IOException;
-
-    public abstract OutputStream allocateOutputStream(OutputStream out) throws IOException;
-
-    public final byte[] getCompressedBytes(final byte[] data) throws IOException {
-	final ByteArrayOutputStream baos = new ByteArrayOutputStream();
-	try (final OutputStream os = allocateOutputStream(baos)) {
-	    os.write(data);
-	}
-	return baos.toByteArray();
+public class GZIPChecksumDriver extends Driver {
+    @Override
+    public String getDescription() {
+	return "GZIPOutputStream and GZIPInputStream with checksum (checksum cannot be disabled)";
     }
 
-    public void tearDown(final Config config) throws IOException {
+    @Override
+    public OutputStream allocateOutputStream(final OutputStream out) throws IOException {
+	return new GZIPOutputStream(out, 64 * 1024);
+    }
+
+    @Override
+    public InputStream allocateInputStream(final InputStream in) throws IOException {
+	return new GZIPInputStream(in);
     }
 }

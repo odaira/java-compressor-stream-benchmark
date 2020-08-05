@@ -37,15 +37,24 @@ public class LZ4FrameJNIDriver extends Driver {
     private final LZ4Compressor compressor = LZ4Factory.nativeInstance().fastCompressor();
     private final XXHash32 outputChecksum = XXHashFactory.nativeInstance().hash32();
     private final LZ4SafeDecompressor decompressor = LZ4Factory.nativeInstance().safeDecompressor();
-    private final XXHash32 inputChecksum = XXHashFactory.nativeInstance().hash32();
+    private  final XXHash32 inputChecksum = XXHashFactory.nativeInstance().hash32();
 
     @Override
     public OutputStream allocateOutputStream(final OutputStream out) throws IOException {
-	if (useChecksum) {
-	    return new LZ4FrameOutputStream(out, LZ4FrameOutputStream.BLOCKSIZE.SIZE_64KB, -1L, compressor, outputChecksum, LZ4FrameOutputStream.FLG.Bits.BLOCK_INDEPENDENCE, LZ4FrameOutputStream.FLG.Bits.CONTENT_CHECKSUM, LZ4FrameOutputStream.FLG.Bits.BLOCK_CHECKSUM);
-	} else {
-	    return new LZ4FrameOutputStream(out, LZ4FrameOutputStream.BLOCKSIZE.SIZE_64KB, -1L, compressor, outputChecksum, LZ4FrameOutputStream.FLG.Bits.BLOCK_INDEPENDENCE);
-	}
+        LZ4FrameOutputStream.FLG.Bits[] checksumFlags = getChecksumFlags();
+        LZ4FrameOutputStream.FLG.Bits[] flags;
+        if (checksumFlags != null) {
+            flags = new LZ4FrameOutputStream.FLG.Bits[checksumFlags.length + 1];
+            flags[0] = LZ4FrameOutputStream.FLG.Bits.BLOCK_INDEPENDENCE;
+            System.arraycopy(checksumFlags, 0, flags, 1, checksumFlags.length);
+        } else {
+            flags = new LZ4FrameOutputStream.FLG.Bits[] { LZ4FrameOutputStream.FLG.Bits.BLOCK_INDEPENDENCE };
+        }
+        return new LZ4FrameOutputStream(out, LZ4FrameOutputStream.BLOCKSIZE.SIZE_64KB, -1L, compressor, outputChecksum, flags);
+    }
+
+    protected LZ4FrameOutputStream.FLG.Bits[] getChecksumFlags() {
+        return null;
     }
 
     @Override

@@ -16,32 +16,14 @@ package net.odaira.jcsb;
  * limitations under the License.
  */
 
-import java.io.OutputStream;
-import java.io.InputStream;
-import java.io.IOException;
-
-import com.github.luben.zstd.ZstdOutputStream;
-import com.github.luben.zstd.ZstdInputStream;
-
-public class ZstdDriver extends Driver {
+public class SnappyFramedChecksumDriver extends SnappyFramedDriver {
     @Override
     public String getDescription() {
-	return "ZstdOutputStream and ZstdInputStream";
+	return "SnappyFramedOutputStream and SnappyFramedInputStream with checksum";
     }
 
     @Override
-    public OutputStream allocateOutputStream(final OutputStream out) throws IOException {
-	ZstdOutputStream zos = new ZstdOutputStream(out);
-	zos.setChecksum(useChecksum());
-	return zos;
-    }
-
     protected boolean useChecksum() {
-        return false;
-    }
-
-    @Override
-    public InputStream allocateInputStream(final InputStream in) throws IOException {
-	return new ZstdInputStream(in);
+        return true;
     }
 }

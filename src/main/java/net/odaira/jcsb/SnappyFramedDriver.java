@@ -36,6 +36,10 @@ public class SnappyFramedDriver extends Driver {
 
     @Override
     public InputStream allocateInputStream(final InputStream in) throws IOException {
-	return new SnappyFramedInputStream(in, useChecksum);
+	return new SnappyFramedInputStream(in, useChecksum());
+    }
+
+    protected boolean useChecksum() {
+        return false;
     }
 }
