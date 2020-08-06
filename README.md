@@ -11,7 +11,6 @@ Help:
 ```
 $ ./run.sh -h
 usage: run.sh [options] <config>
- -d         disable checksum if possible
  -e         explain the drivers and tests and then exit
  -h         print help
  -r <arg>   specify run time in seconds (default 30 seconds)
@@ -22,18 +21,28 @@ Explain:
 ```
 $ ./run.sh -e cfg/tests.yml
 ---------------
-net.odaira.jcsb.LZ4BlockJNIDriver
-  LZ4BlockOutputStream and LZ4BlockInputStream (checksum cannot be disabled)
+net.odaira.jcsb.LZ4BlockChecksumJNIDriver
+  LZ4BlockOutputStream and LZ4BlockInputStream with checksum (checksum cannot be disabled)
 net.odaira.jcsb.LZ4FrameJNIDriver
   LZ4FrameOutputStream and LZ4FrameInputStream
+net.odaira.jcsb.LZ4FrameBlockChecksumJNIDriver
+  LZ4FrameOutputStream and LZ4FrameInputStream with block checksum
+net.odaira.jcsb.LZ4FrameContentChecksumJNIDriver
+  LZ4FrameOutputStream and LZ4FrameInputStream with content checksum
+net.odaira.jcsb.LZ4FrameBlockContentChecksumJNIDriver
+  LZ4FrameOutputStream and LZ4FrameInputStream with block and content checksum
 net.odaira.jcsb.SnappyDriver
-  SnappyOutputStream and SnappyInputStream
+  SnappyOutputStream and SnappyInputStream (checksum is not supported)
 net.odaira.jcsb.SnappyFramedDriver
   SnappyFramedOutputStream and SnappyFramedInputStream
+net.odaira.jcsb.SnappyFramedChecksumDriver
+  SnappyFramedOutputStream and SnappyFramedInputStream with checksum
 net.odaira.jcsb.ZstdDriver
   ZstdOutputStream and ZstdInputStream
-net.odaira.jcsb.GZIPDriver
-  GZIPOutputStream and GZIPInputStream (checksum cannot be disabled)
+net.odaira.jcsb.ZstdChecksumDriver
+  ZstdOutputStream and ZstdInputStream with checksum
+net.odaira.jcsb.GZIPChecksumDriver
+  GZIPOutputStream and GZIPInputStream with checksum (checksum cannot be disabled)
 ---------------
 net.odaira.jcsb.InputStreamAllocationTest
   Allocate an input stream instance
@@ -57,13 +66,13 @@ net.odaira.jcsb.SizeTest
 Run:
 ```
 $ ./run.sh cfg/tests.yml
-LZ4BlockJNIDriver	InputStreamAllocationTest	InstanceAllocation	21119229.1	ops
-LZ4BlockJNIDriver	OutputStreamAllocationTest	InstanceAllocation	148709.4	ops
-LZ4BlockJNIDriver	WriteByteArrayTest	testdata/calgary/bib	2656.3	ops
-LZ4BlockJNIDriver	WriteByteArrayTest	testdata/calgary/book1	308.0	ops
-LZ4BlockJNIDriver	WriteByteArrayTest	testdata/calgary/book2	452.9	ops
-LZ4BlockJNIDriver	WriteByteArrayTest	testdata/calgary/geo	4270.3	ops
-LZ4BlockJNIDriver	WriteByteTest	testdata/calgary/bib	1711.6	ops
+LZ4BlockChecksumJNIDriver	InputStreamAllocationTest	InstanceAllocation	21119229.1	ops
+LZ4BlockChecksumJNIDriver	OutputStreamAllocationTest	InstanceAllocation	148709.4	ops
+LZ4BlockChecksumJNIDriver	WriteByteArrayTest	testdata/calgary/bib	2656.3	ops
+LZ4BlockChecksumJNIDriver	WriteByteArrayTest	testdata/calgary/book1	308.0	ops
+LZ4BlockChecksumJNIDriver	WriteByteArrayTest	testdata/calgary/book2	452.9	ops
+LZ4BlockChecksumJNIDriver	WriteByteArrayTest	testdata/calgary/geo	4270.3	ops
+LZ4BlockChecksumJNIDriver	WriteByteTest	testdata/calgary/bib	1711.6	ops
 ...
 ```
 Edit cfg/tests.yml to run only specific drivers, tests, or test data.
