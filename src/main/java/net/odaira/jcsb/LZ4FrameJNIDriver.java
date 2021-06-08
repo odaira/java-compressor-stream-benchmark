@@ -37,7 +37,7 @@ public class LZ4FrameJNIDriver extends Driver {
     private final LZ4Compressor compressor = LZ4Factory.nativeInstance().fastCompressor();
     private final XXHash32 outputChecksum = XXHashFactory.nativeInstance().hash32();
     private final LZ4SafeDecompressor decompressor = LZ4Factory.nativeInstance().safeDecompressor();
-    private  final XXHash32 inputChecksum = XXHashFactory.nativeInstance().hash32();
+    private final XXHash32 inputChecksum = XXHashFactory.nativeInstance().hash32();
 
     @Override
     public OutputStream allocateOutputStream(final OutputStream out) throws IOException {
